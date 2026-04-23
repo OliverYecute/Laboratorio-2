@@ -10,7 +10,4 @@ package com.mycompany.laboratorio2_oyecutey;
  */
 public class Laboratorio2_Oyecutey {
 
-    public static void main(String[] args) {
-        System.out.println("Hello World!");
-    }
 }
