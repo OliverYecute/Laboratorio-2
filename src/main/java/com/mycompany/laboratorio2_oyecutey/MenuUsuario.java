@@ -101,7 +101,7 @@ public class MenuUsuario extends javax.swing.JFrame {
         BTNCERRARSESION.addActionListener(this::BTNCERRARSESIONActionPerformed);
 
         LBLBIENVENIDO.setFont(new java.awt.Font("Segoe UI", 2, 18)); // NOI18N
-        LBLBIENVENIDO.setText("jLabel2");
+        LBLBIENVENIDO.setText("Bienvenido");
 
         TABLAREGISTROS.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
