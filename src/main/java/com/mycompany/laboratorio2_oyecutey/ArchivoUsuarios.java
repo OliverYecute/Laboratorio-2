@@ -44,13 +44,41 @@ public class ArchivoUsuarios {
             }
 
         } catch (IOException e) {
-    JOptionPane.showMessageDialog(null, "Error al guardar usuarios");
-    }
+            JOptionPane.showMessageDialog(null, "Error al cargar usuarios");
+        }
 
         return usuarios;
     }
+
+    
+    public static boolean cambiarClave(String usuarioBuscado, String nuevaClave) {
+    List<String[]> usuarios = cargarUsuarios();
+    boolean encontrado = false;
+
+    for (String[] u : usuarios) {
+        if (u[1].equals(usuarioBuscado)) {
+            u[4] = nuevaClave;
+            encontrado = true;
+            break;
+        }
+    }
+
+    if (encontrado) {
+        guardarUsuarios(usuarios);
+    }
+
+    return encontrado;
 }
 
+public static String[] buscarUsuario(String usuarioBuscado) {
+    for (String[] u : cargarUsuarios()) {
+        if (u[1].equalsIgnoreCase(usuarioBuscado)) {
+            return u;
+        }
+    }
+    return null;
+    }
+}
 /**
  *
  * @author yecut

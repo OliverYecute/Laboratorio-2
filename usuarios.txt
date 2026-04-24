@@ -1,0 +1,6 @@
+Esgar Yecute|EYecute|Empleado|Activo|EsgarYecute#2026
+Kalany Roxana Sian|KSian|Empleado|Activo|KalanyRoxana!2026
+Juan Pérez|Jperez|Jefe|Activo|JuanPerez#Clave2026
+María López|MLopez|Empleado|Activo|MariaLopez!Work2026
+Carlos Méndez|Cmendez|Empleado|Inactivo|CarlosMendez#2026
+Alejandro Ruiz|Aruiz|Gerente|Activo|AlejandroRuiz#2026

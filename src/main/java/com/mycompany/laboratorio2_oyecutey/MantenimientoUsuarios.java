@@ -12,8 +12,10 @@ import javax.swing.JOptionPane;
  */
 public class MantenimientoUsuarios extends javax.swing.JDialog {
     
+    
     private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(MantenimientoUsuarios.class.getName());
-
+    
+    private java.util.Map<String, String> clavesNuevas = new java.util.HashMap<>();
     /**
      * Creates new form MantenimientoUsuarios
      */
@@ -115,7 +117,6 @@ public class MantenimientoUsuarios extends javax.swing.JDialog {
                 return canEdit [columnIndex];
             }
         });
-        TABLAUSUARIOS.setColumnSelectionAllowed(true);
         TABLAUSUARIOS.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 TABLAUSUARIOSMouseClicked(evt);
@@ -254,8 +255,19 @@ public class MantenimientoUsuarios extends javax.swing.JDialog {
     }//GEN-LAST:event_TABLAUSUARIOSMouseClicked
 
     private void BTNAGREGARActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BTNAGREGARActionPerformed
-   
+        AsignarClaveUsuario ventanaClave = new AsignarClaveUsuario(null, true, TXTUSUARIO.getText().trim());
+ventanaClave.setVisible(true);
+
+String claveNueva = ventanaClave.getClaveAsignada();
+
+if (claveNueva == null) {
+    JOptionPane.showMessageDialog(this, "Debe asignar una contraseña para crear el usuario.");
+    return;
+}
+
+clavesNuevas.put(TXTUSUARIO.getText().trim(), claveNueva);
         if (camposVacios()) return;
+        if (usuarioDuplicado(TXTUSUARIO.getText().trim())) return;
 
     DefaultTableModel modelo = (DefaultTableModel) TABLAUSUARIOS.getModel();
 
@@ -282,6 +294,7 @@ public class MantenimientoUsuarios extends javax.swing.JDialog {
     }
 
     if (camposVacios()) return;
+    if (usuarioDuplicadoAlModificar(TXTUSUARIO.getText().trim(), fila)) return;
 
     TABLAUSUARIOS.setValueAt(TXTNOMBRE.getText(), fila, 0);
     TABLAUSUARIOS.setValueAt(TXTUSUARIO.getText(), fila, 1);
@@ -317,13 +330,7 @@ public class MantenimientoUsuarios extends javax.swing.JDialog {
     }//GEN-LAST:event_BTNINACTIVARActionPerformed
 
     private void BTNLIMPIARActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BTNLIMPIARActionPerformed
-         TXTNOMBRE.setText("");
-        TXTUSUARIO.setText("");
-        COMBOBOXROL.setSelectedIndex(0);
-        COMBOBOXESTADO.setSelectedIndex(0);
-        TABLAUSUARIOS.clearSelection();
-
-        BTNINACTIVAR.setText("Inactivar");
+        limpiarCampos();
     }//GEN-LAST:event_BTNLIMPIARActionPerformed
 
     private void BTNELIMINARActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BTNELIMINARActionPerformed
@@ -387,14 +394,14 @@ public class MantenimientoUsuarios extends javax.swing.JDialog {
         String rol = modelo.getValueAt(i, 2).toString();
         String estado = modelo.getValueAt(i, 3).toString();
 
-        String clave = "Temporal123!";
+        String clave = clavesNuevas.getOrDefault(usuario, "Temporal123!");
 
-        for (String[] u : ArchivoUsuarios.cargarUsuarios()) {
-            if (u[1].equals(usuario)) {
-                clave = u[4];
-                break;
-            }
-        }
+for (String[] u : ArchivoUsuarios.cargarUsuarios()) {
+    if (u[1].equals(usuario) && !clavesNuevas.containsKey(usuario)) {
+        clave = u[4];
+        break;
+    }
+}
 
         usuarios.add(new String[]{
             nombre,
@@ -404,8 +411,55 @@ public class MantenimientoUsuarios extends javax.swing.JDialog {
             clave
         });
     }
+    
+    
 
     ArchivoUsuarios.guardarUsuarios(usuarios);
+}
+    private void cargarUsuariosEnTabla() {
+    DefaultTableModel modelo = (DefaultTableModel) TABLAUSUARIOS.getModel();
+    modelo.setRowCount(0);
+
+    for (String[] u : ArchivoUsuarios.cargarUsuarios()) {
+        modelo.addRow(new Object[]{
+            u[0],
+            u[1],
+            u[2],
+            u[3]
+        });
+    }
+}
+    private boolean usuarioDuplicado(String usuario) {
+    DefaultTableModel modelo = (DefaultTableModel) TABLAUSUARIOS.getModel();
+
+    for (int i = 0; i < modelo.getRowCount(); i++) {
+        String usuarioTabla = modelo.getValueAt(i, 1).toString();
+
+        if (usuarioTabla.equalsIgnoreCase(usuario)) {
+            JOptionPane.showMessageDialog(this, "El usuario ya existe. Ingrese otro nombre de usuario.");
+            return true;
+        }
+    }
+
+    return false;
+}
+    private boolean usuarioDuplicadoAlModificar(String usuario, int filaActual) {
+    DefaultTableModel modelo = (DefaultTableModel) TABLAUSUARIOS.getModel();
+
+    for (int i = 0; i < modelo.getRowCount(); i++) {
+        if (i == filaActual) {
+            continue;
+        }
+
+        String usuarioTabla = modelo.getValueAt(i, 1).toString();
+
+        if (usuarioTabla.equalsIgnoreCase(usuario)) {
+            JOptionPane.showMessageDialog(this, "El usuario ya existe. Ingrese otro nombre de usuario.");
+            return true;
+        }
+    }
+
+    return false;
 }
     /**
      * @param args the command line arguments

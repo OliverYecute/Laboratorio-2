@@ -37,6 +37,11 @@ public class MenuPrincipal extends javax.swing.JFrame {
         BTNMANTENIMIENTO = new javax.swing.JButton();
         BTNREINICIO = new javax.swing.JButton();
         jButton1 = new javax.swing.JButton();
+        jMenuBar1 = new javax.swing.JMenuBar();
+        jMenu1 = new javax.swing.JMenu();
+        jMenuItem1 = new javax.swing.JMenuItem();
+        jMenuItem2 = new javax.swing.JMenuItem();
+        jMenuItem3 = new javax.swing.JMenuItem();
 
         jPanel2.setBackground(new java.awt.Color(0, 0, 204));
 
@@ -112,6 +117,24 @@ public class MenuPrincipal extends javax.swing.JFrame {
         jButton1.setText("CERRAR SESIÓN");
         jButton1.addActionListener(this::jButton1ActionPerformed);
 
+        jMenu1.setText("GESTIÓN");
+
+        jMenuItem1.setText("Mantenimiento de Usuarios");
+        jMenuItem1.addActionListener(this::jMenuItem1ActionPerformed);
+        jMenu1.add(jMenuItem1);
+
+        jMenuItem2.setText("Reinicio de Clave");
+        jMenuItem2.addActionListener(this::jMenuItem2ActionPerformed);
+        jMenu1.add(jMenuItem2);
+
+        jMenuItem3.setText("Cerrar Sesión");
+        jMenuItem3.addActionListener(this::jMenuItem3ActionPerformed);
+        jMenu1.add(jMenuItem3);
+
+        jMenuBar1.add(jMenu1);
+
+        setJMenuBar(jMenuBar1);
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -120,16 +143,16 @@ public class MenuPrincipal extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(170, 170, 170)
-                        .addComponent(LBLGESTION))
-                    .addGroup(layout.createSequentialGroup()
                         .addGap(102, 102, 102)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addComponent(BTNMANTENIMIENTO, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(BTNREINICIO, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                     .addGroup(layout.createSequentialGroup()
                         .addGap(134, 134, 134)
-                        .addComponent(jButton1)))
+                        .addComponent(jButton1))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(162, 162, 162)
+                        .addComponent(LBLGESTION)))
                 .addContainerGap(122, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
@@ -142,7 +165,7 @@ public class MenuPrincipal extends javax.swing.JFrame {
                 .addComponent(BTNMANTENIMIENTO)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(BTNREINICIO)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 62, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 40, Short.MAX_VALUE)
                 .addComponent(jButton1)
                 .addGap(45, 45, 45))
         );
@@ -161,15 +184,11 @@ public class MenuPrincipal extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_BTNINICIARSESIONActionPerformed
 
-    private void BTNMANTENIMIENTOActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BTNMANTENIMIENTOActionPerformed
-         this.setVisible(false);
-
-        MantenimientoUsuarios ventana = new MantenimientoUsuarios(this, true);
-        ventana.setLocationRelativeTo(null);
-        ventana.setVisible(true);
-
-        this.setVisible(true);// TODO add your handling code here:
-    }//GEN-LAST:event_BTNMANTENIMIENTOActionPerformed
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        LoginFrameJava login = new LoginFrameJava();
+        login.setVisible(true);
+        this.dispose();        // TODO add your handling code here:
+    }//GEN-LAST:event_jButton1ActionPerformed
 
     private void BTNREINICIOActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BTNREINICIOActionPerformed
         this.setVisible(false);
@@ -181,11 +200,42 @@ public class MenuPrincipal extends javax.swing.JFrame {
         this.setVisible(true);        // TODO add your handling code here:
     }//GEN-LAST:event_BTNREINICIOActionPerformed
 
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+    private void BTNMANTENIMIENTOActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BTNMANTENIMIENTOActionPerformed
+        this.setVisible(false);
+
+        MantenimientoUsuarios ventana = new MantenimientoUsuarios(this, true);
+        ventana.setLocationRelativeTo(null);
+        ventana.setVisible(true);
+
+        this.setVisible(true);// TODO add your handling code here:
+    }//GEN-LAST:event_BTNMANTENIMIENTOActionPerformed
+
+    private void jMenuItem2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem2ActionPerformed
+        this.setVisible(false);
+
+    ReinicioClave rc = new ReinicioClave(this, true);
+    rc.setLocationRelativeTo(null);
+    rc.setVisible(true);
+
+    this.setVisible(true);        // TODO add your handling code here:
+    }//GEN-LAST:event_jMenuItem2ActionPerformed
+
+    private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem1ActionPerformed
+this.setVisible(false);
+
+    MantenimientoUsuarios mu = new MantenimientoUsuarios(this, true);
+    mu.setLocationRelativeTo(null);
+    mu.setVisible(true);
+
+    this.setVisible(true);     // TODO add your handling code here:
+    }//GEN-LAST:event_jMenuItem1ActionPerformed
+
+    private void jMenuItem3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem3ActionPerformed
         LoginFrameJava login = new LoginFrameJava();
-        login.setVisible(true);
-        this.dispose();        // TODO add your handling code here:
-    }//GEN-LAST:event_jButton1ActionPerformed
+    login.setLocationRelativeTo(null);
+    login.setVisible(true);
+    dispose();        // TODO add your handling code here:
+    }//GEN-LAST:event_jMenuItem3ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -220,6 +270,11 @@ public class MenuPrincipal extends javax.swing.JFrame {
     private javax.swing.JLabel LBLMENU;
     private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JMenu jMenu1;
+    private javax.swing.JMenuBar jMenuBar1;
+    private javax.swing.JMenuItem jMenuItem1;
+    private javax.swing.JMenuItem jMenuItem2;
+    private javax.swing.JMenuItem jMenuItem3;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
     // End of variables declaration//GEN-END:variables

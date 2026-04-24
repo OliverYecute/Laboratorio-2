@@ -20,7 +20,15 @@ public class ReinicioClave extends javax.swing.JDialog {
     public ReinicioClave(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
+        cargarUsuarios();
     }
+        private void cargarUsuarios() {
+    COMBOBOXUSUARIOS.removeAllItems();
+
+    for (String[] u : ArchivoUsuarios.cargarUsuarios()) {
+        COMBOBOXUSUARIOS.addItem(u[1]); // solo nombre de usuario
+    }
+}
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -36,7 +44,6 @@ public class ReinicioClave extends javax.swing.JDialog {
         jLabel2 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
-        TXTUSUARIO = new javax.swing.JTextField();
         TXTCLAVE = new javax.swing.JPasswordField();
         TXTCONFIRMAR = new javax.swing.JPasswordField();
         BTNGUARDAR = new javax.swing.JButton();
@@ -44,6 +51,7 @@ public class ReinicioClave extends javax.swing.JDialog {
         BTNCERRAR = new javax.swing.JButton();
         jLabel5 = new javax.swing.JLabel();
         jLabel6 = new javax.swing.JLabel();
+        COMBOBOXUSUARIOS = new javax.swing.JComboBox<>();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
@@ -76,8 +84,6 @@ public class ReinicioClave extends javax.swing.JDialog {
 
         jLabel4.setText("CONFIRMAR CONTRASEÑA:");
 
-        TXTUSUARIO.addActionListener(this::TXTUSUARIOActionPerformed);
-
         BTNGUARDAR.setText("GUARDAR");
         BTNGUARDAR.addActionListener(this::BTNGUARDARActionPerformed);
 
@@ -92,6 +98,8 @@ public class ReinicioClave extends javax.swing.JDialog {
         jLabel5.setText("La contraseña debe contener como mínimo 13 caracteres, incluyendo");
 
         jLabel6.setText("al menos una letra mayúscula y un carácter especial.");
+
+        COMBOBOXUSUARIOS.addActionListener(this::COMBOBOXUSUARIOSActionPerformed);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -121,9 +129,9 @@ public class ReinicioClave extends javax.swing.JDialog {
                                     .addComponent(jLabel3))
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                    .addComponent(TXTUSUARIO)
                                     .addComponent(TXTCLAVE)
-                                    .addComponent(TXTCONFIRMAR, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                                    .addComponent(TXTCONFIRMAR, javax.swing.GroupLayout.DEFAULT_SIZE, 200, Short.MAX_VALUE)
+                                    .addComponent(COMBOBOXUSUARIOS, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
                         .addContainerGap())))
             .addGroup(layout.createSequentialGroup()
                 .addGap(70, 70, 70)
@@ -138,14 +146,14 @@ public class ReinicioClave extends javax.swing.JDialog {
                 .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 16, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 16, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 19, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 17, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel2)
-                    .addComponent(TXTUSUARIO, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(COMBOBOXUSUARIOS, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel3)
-                    .addComponent(TXTCLAVE, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(TXTCLAVE, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel3))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 16, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -161,48 +169,51 @@ public class ReinicioClave extends javax.swing.JDialog {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void TXTUSUARIOActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_TXTUSUARIOActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_TXTUSUARIOActionPerformed
-
     private void BTNGUARDARActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BTNGUARDARActionPerformed
-         String clave = new String(TXTCLAVE.getPassword());
-    String confirmar = new String(TXTCONFIRMAR.getPassword());
-
-    // 1. Validar campos vacíos
-    if (clave.isEmpty() || confirmar.isEmpty()) {
-            JOptionPane.showMessageDialog(this, "Por favor, ingrese los datos solicitados");
+         if (COMBOBOXUSUARIOS.getSelectedItem() == null) {
+        JOptionPane.showMessageDialog(this, "No hay usuarios registrados");
         return;
     }
 
-    // 2. Validar coincidencia
+    String usuario = COMBOBOXUSUARIOS.getSelectedItem().toString();
+    String clave = new String(TXTCLAVE.getPassword());
+    String confirmar = new String(TXTCONFIRMAR.getPassword());
+
+    if (usuario.isEmpty() || clave.isEmpty() || confirmar.isEmpty()) {
+        JOptionPane.showMessageDialog(this, "Por favor, ingrese los datos solicitados");
+        return;
+    }
+
     if (!clave.equals(confirmar)) {
         JOptionPane.showMessageDialog(this, "Las contraseñas no coinciden");
         return;
     }
 
-    // 3. Validar longitud mínima
     if (clave.length() < 13) {
         JOptionPane.showMessageDialog(this, "La contraseña debe tener mínimo 13 caracteres");
         return;
     }
 
-    // 4. Validar al menos una mayúscula
     if (!clave.matches(".*[A-Z].*")) {
-        JOptionPane.showMessageDialog(this, "Debe contener al menos una letra mayúscula");
+        JOptionPane.showMessageDialog(this, "La contraseña debe contener al menos una letra mayúscula");
         return;
     }
 
-    // 5. Validar al menos un carácter especial
     if (!clave.matches(".*[^a-zA-Z0-9].*")) {
-        JOptionPane.showMessageDialog(this, "Debe contener al menos un carácter especial");
+        JOptionPane.showMessageDialog(this, "La contraseña debe contener al menos un carácter especial");
         return;
     }
 
-    // ✔ TODO CORRECTO
-    JOptionPane.showMessageDialog(this, "Contraseña actualizada correctamente");
+    boolean cambiado = ArchivoUsuarios.cambiarClave(usuario, clave);
 
-    limpiarCampos();        // TODO add your handling code here:
+    if (cambiado) {
+    JOptionPane.showMessageDialog(this, "Contraseña actualizada correctamente");
+    cargarUsuarios();
+    limpiarCampos();
+    } 
+    else {
+    JOptionPane.showMessageDialog(this, "El usuario ingresado no existe");
+    }     // TODO add your handling code here:
     }//GEN-LAST:event_BTNGUARDARActionPerformed
 
     private void BTNLIMPIARActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BTNLIMPIARActionPerformed
@@ -213,10 +224,15 @@ public class ReinicioClave extends javax.swing.JDialog {
         dispose();        // TODO add your handling code here:
     }//GEN-LAST:event_BTNCERRARActionPerformed
 
+    private void COMBOBOXUSUARIOSActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_COMBOBOXUSUARIOSActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_COMBOBOXUSUARIOSActionPerformed
+
     private void limpiarCampos() {
+    COMBOBOXUSUARIOS.setSelectedIndex(-1); // o 0 si prefieres
     TXTCLAVE.setText("");
     TXTCONFIRMAR.setText("");
-    }
+}
     
     
     /**
@@ -260,9 +276,9 @@ public class ReinicioClave extends javax.swing.JDialog {
     private javax.swing.JButton BTNCERRAR;
     private javax.swing.JButton BTNGUARDAR;
     private javax.swing.JButton BTNLIMPIAR;
+    private javax.swing.JComboBox<String> COMBOBOXUSUARIOS;
     private javax.swing.JPasswordField TXTCLAVE;
     private javax.swing.JPasswordField TXTCONFIRMAR;
-    private javax.swing.JTextField TXTUSUARIO;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;

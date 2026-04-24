@@ -202,14 +202,26 @@ public class LoginFrameJava extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_BTNINICIARSESIONMouseClicked
     private void iniciarSesion() {
-    String Usuario = "oyecutey";
-    String Contraseña = "Umariano24";
+    String usuarioIngresado = TXTUSUARIO.getText().trim();
+    String passwordIngresado = new String(PASSWORD.getPassword());
 
-    String Password = new String(PASSWORD.getPassword());
+    if (usuarioIngresado.isEmpty() || passwordIngresado.isEmpty()) {
+        JOptionPane.showMessageDialog(this, "Por favor, ingrese usuario y contraseña");
+        return;
+    }
 
-    if (TXTUSUARIO.getText().equals(Usuario) && Password.equals(Contraseña)) {
+    if (usuarioIngresado.equals("oyecutey") && passwordIngresado.equals("Umariano24")) {
         MenuPrincipal menu = new MenuPrincipal();
         menu.setVisible(true);
+        dispose();
+        return;
+    }
+
+    String[] usuario = ArchivoUsuarios.buscarUsuario(usuarioIngresado);
+
+    if (usuario != null && usuario[4].equals(passwordIngresado) && usuario[3].equalsIgnoreCase("Activo")) {
+        MenuUsuario menuUsuario = new MenuUsuario(usuario[0]);
+        menuUsuario.setVisible(true);
         dispose();
     } else {
         intentos++;
