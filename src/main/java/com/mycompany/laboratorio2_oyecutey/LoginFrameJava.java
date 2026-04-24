@@ -4,13 +4,20 @@
  */
 package com.mycompany.laboratorio2_oyecutey;
 
+import java.awt.Image;
+import javax.swing.Icon;
+import javax.swing.ImageIcon;
+import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 
 /**
  *
  * @author yecut
  */
+
 public class LoginFrameJava extends javax.swing.JFrame {
+    
+    private int intentos = 0;
     
     private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(LoginFrameJava.class.getName());
 
@@ -18,7 +25,16 @@ public class LoginFrameJava extends javax.swing.JFrame {
      * Creates new form LoginFrameJava
      */
     public LoginFrameJava() {
-        initComponents();
+    initComponents();
+    this.setLocationRelativeTo(null);
+    
+    getRootPane().setDefaultButton(BTNINICIARSESION);
+    
+    TXTUSUARIO.addActionListener(e -> iniciarSesion());
+    PASSWORD.addActionListener(e -> iniciarSesion());
+
+    SetImageLabel(IMAGEN1, "/imagenes/552721.png");
+    SetImageLabel(IMAGEN2, "/imagenes/password-76.png");
     }
 
     /**
@@ -40,16 +56,19 @@ public class LoginFrameJava extends javax.swing.JFrame {
         LBLUSUARIO = new javax.swing.JLabel();
         LBLCONTRASEÑA = new javax.swing.JLabel();
         BTNINICIARSESION = new javax.swing.JButton();
+        IMAGEN2 = new javax.swing.JLabel();
+        IMAGEN1 = new javax.swing.JLabel();
 
         jScrollPane1.setViewportView(jTree1);
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
-        LOGIN.setBackground(new java.awt.Color(0, 0, 153));
+        LOGIN.setBackground(new java.awt.Color(204, 255, 255));
 
-        jPanel2.setBackground(new java.awt.Color(153, 153, 0));
+        jPanel2.setBackground(new java.awt.Color(0, 0, 204));
 
         jLabel1.setFont(new java.awt.Font("Trajan Pro", 0, 14)); // NOI18N
+        jLabel1.setForeground(new java.awt.Color(255, 255, 255));
         jLabel1.setText("LOGIN");
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
@@ -74,14 +93,15 @@ public class LoginFrameJava extends javax.swing.JFrame {
         PASSWORD.addActionListener(this::PASSWORDActionPerformed);
 
         LBLUSUARIO.setBackground(new java.awt.Color(255, 255, 255));
-        LBLUSUARIO.setForeground(new java.awt.Color(255, 255, 255));
+        LBLUSUARIO.setFont(new java.awt.Font("Segoe UI", 2, 14)); // NOI18N
         LBLUSUARIO.setText("USUARIO");
 
         LBLCONTRASEÑA.setBackground(new java.awt.Color(255, 255, 255));
-        LBLCONTRASEÑA.setForeground(new java.awt.Color(255, 255, 255));
+        LBLCONTRASEÑA.setFont(new java.awt.Font("Segoe UI", 2, 14)); // NOI18N
         LBLCONTRASEÑA.setText("CONTRASEÑA");
 
-        BTNINICIARSESION.setBackground(new java.awt.Color(153, 153, 0));
+        BTNINICIARSESION.setBackground(new java.awt.Color(0, 0, 204));
+        BTNINICIARSESION.setFont(new java.awt.Font("Segoe UI", 2, 12)); // NOI18N
         BTNINICIARSESION.setForeground(new java.awt.Color(255, 255, 255));
         BTNINICIARSESION.setText("INICIAR SESIÓN");
         BTNINICIARSESION.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -89,6 +109,13 @@ public class LoginFrameJava extends javax.swing.JFrame {
                 BTNINICIARSESIONMouseClicked(evt);
             }
         });
+        BTNINICIARSESION.addActionListener(this::BTNINICIARSESIONActionPerformed);
+
+        IMAGEN2.setBackground(new java.awt.Color(255, 255, 255));
+        IMAGEN2.setForeground(new java.awt.Color(255, 255, 255));
+
+        IMAGEN1.setBackground(new java.awt.Color(255, 255, 255));
+        IMAGEN1.setForeground(new java.awt.Color(255, 255, 255));
 
         javax.swing.GroupLayout LOGINLayout = new javax.swing.GroupLayout(LOGIN);
         LOGIN.setLayout(LOGINLayout);
@@ -96,17 +123,20 @@ public class LoginFrameJava extends javax.swing.JFrame {
             LOGINLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, LOGINLayout.createSequentialGroup()
-                .addContainerGap(53, Short.MAX_VALUE)
+                .addContainerGap(41, Short.MAX_VALUE)
                 .addGroup(LOGINLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(LBLCONTRASEÑA)
                     .addComponent(LBLUSUARIO))
                 .addGap(10, 10, 10)
                 .addGroup(LOGINLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                     .addComponent(BTNINICIARSESION, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addGroup(LOGINLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                        .addComponent(TXTUSUARIO)
-                        .addComponent(PASSWORD, javax.swing.GroupLayout.DEFAULT_SIZE, 114, Short.MAX_VALUE)))
-                .addGap(147, 147, 147))
+                    .addComponent(TXTUSUARIO, javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(PASSWORD, javax.swing.GroupLayout.Alignment.LEADING))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(LOGINLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(IMAGEN2, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(IMAGEN1, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(107, 107, 107))
         );
         LOGINLayout.setVerticalGroup(
             LOGINLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -115,14 +145,16 @@ public class LoginFrameJava extends javax.swing.JFrame {
                 .addGap(74, 74, 74)
                 .addGroup(LOGINLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(TXTUSUARIO, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(LBLUSUARIO))
+                    .addComponent(LBLUSUARIO)
+                    .addComponent(IMAGEN1, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addGroup(LOGINLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(PASSWORD, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(LBLCONTRASEÑA))
+                    .addComponent(LBLCONTRASEÑA)
+                    .addComponent(IMAGEN2, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(BTNINICIARSESION)
-                .addGap(0, 80, Short.MAX_VALUE))
+                .addComponent(BTNINICIARSESION, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGap(80, 80, 80))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -139,7 +171,24 @@ public class LoginFrameJava extends javax.swing.JFrame {
         pack();
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
+    private void SetImageLabel(JLabel labelName, String resourcePath) {
+    java.net.URL url = getClass().getResource(resourcePath);
 
+    if (url != null) {
+        ImageIcon image = new ImageIcon(url);
+
+        int ancho = labelName.getWidth();
+        int alto = labelName.getHeight();
+
+        if (ancho > 0 && alto > 0) {
+            Image scaledImage = image.getImage().getScaledInstance(ancho, alto, Image.SCALE_SMOOTH);
+            labelName.setIcon(new ImageIcon(scaledImage));
+            labelName.setText("");
+        }
+    } else {
+        System.out.println("No se encontró la imagen: " + resourcePath);
+    }
+}
     private void TXTUSUARIOActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_TXTUSUARIOActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_TXTUSUARIOActionPerformed
@@ -149,23 +198,37 @@ public class LoginFrameJava extends javax.swing.JFrame {
     }//GEN-LAST:event_PASSWORDActionPerformed
 
     private void BTNINICIARSESIONMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_BTNINICIARSESIONMouseClicked
-        String Usuario = "oyecutey";
-        String Contraseña = "Umariano24";
-
-        String Password = new String(PASSWORD.getPassword());
-
-
-        if(TXTUSUARIO.getText().equals(Usuario) && Password.equals(Contraseña))
-        {
-            GestionNominaPCIGerente GN = new GestionNominaPCIGerente();
-            GN.setVisible(true);
-            dispose();
-        }
-        else {
-        
-            JOptionPane.showMessageDialog(this, "USUARIO / CONTRASEÑA INCORRECTA");// TODO add your handling code here:
+        iniciarSesion();
+        // TODO add your handling code here:
     }//GEN-LAST:event_BTNINICIARSESIONMouseClicked
+    private void iniciarSesion() {
+    String Usuario = "oyecutey";
+    String Contraseña = "Umariano24";
+
+    String Password = new String(PASSWORD.getPassword());
+
+    if (TXTUSUARIO.getText().equals(Usuario) && Password.equals(Contraseña)) {
+        MenuPrincipal menu = new MenuPrincipal();
+        menu.setVisible(true);
+        dispose();
+    } else {
+        intentos++;
+
+        if (intentos >= 3) {
+            JOptionPane.showMessageDialog(this, "Ha superado los 3 intentos permitidos.");
+            BTNINICIARSESION.setEnabled(false);
+            TXTUSUARIO.setEnabled(false);
+            PASSWORD.setEnabled(false);
+        } else {
+            JOptionPane.showMessageDialog(this, "Usuario o contraseña incorrectos. Intento " + intentos + " de 3.");
+        }
     }
+}
+    private void BTNINICIARSESIONActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BTNINICIARSESIONActionPerformed
+        iniciarSesion();
+        // TODO add your handling code here:
+    }//GEN-LAST:event_BTNINICIARSESIONActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -193,6 +256,8 @@ public class LoginFrameJava extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton BTNINICIARSESION;
+    private javax.swing.JLabel IMAGEN1;
+    private javax.swing.JLabel IMAGEN2;
     private javax.swing.JLabel LBLCONTRASEÑA;
     private javax.swing.JLabel LBLUSUARIO;
     private javax.swing.JPanel LOGIN;
